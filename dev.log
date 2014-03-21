@@ -1,0 +1,7 @@
+3/21
+  Created project. General order of development:
+    Create user system
+    create form for inserting images and meta information
+    check form data against business rules
+    return response
+    Insert into blockchain.
