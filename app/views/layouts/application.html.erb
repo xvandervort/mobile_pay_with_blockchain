@@ -14,6 +14,9 @@
   <% unless alert.nil? %>
     <p class="alert"><%= alert %></p>
   <% end %>
+  <% if user_signed_in? %>
+    <div id='welcomeuser'>Welcome <%= current_user.email %> &nbsp; <%=  link_to 'sign out', destroy_user_session_path, :method => :delete %></div>
+  <% end %>
   <%= yield %>
 
 </body>
