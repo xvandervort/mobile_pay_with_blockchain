@@ -30,5 +30,10 @@
   <%= @payment.image_hash %>
 </p>
 
+<p>
+  <strong>Image:</strong><br/>
+  <%= image_tag @payment.invoice.url %>
+</p>
+
 <%= link_to 'Edit', edit_payment_path(@payment) %> |
 <%= link_to 'Back', payments_path %>

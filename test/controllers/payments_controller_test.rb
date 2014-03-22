@@ -38,7 +38,7 @@ class PaymentsControllerTest < ActionController::TestCase
   end
 
   test "should update payment" do
-    patch :update, id: @payment, payment: { currency: @payment.currency, image_hash: @payment.image_hash, merchant: @payment.merchant, pre_approval: @payment.pre_approval, transaction_hash: @payment.transaction_hash, user_id: @payment.user_id }
+    patch :update, id: @payment, payment: { currency: @payment.currency, merchant: @payment.merchant, pre_approval: @payment.pre_approval, user_id: @payment.user_id }
     assert_redirected_to payment_path(assigns(:payment))
   end
 
@@ -56,5 +56,11 @@ class PaymentsControllerTest < ActionController::TestCase
     assigns(:payments).each do |pay|
       assert_equal @user.id, pay.user_id
     end
+  end
+  
+  test "create should store payment amount" do
+    post :create, payment: { currency: @payment.currency, merchant: @payment.merchant, pre_approval: @payment.pre_approval, user_id: @payment.user_id, amount: '5' }
+    pay = Payment.last
+    assert_equal 5.0, pay.amount
   end
 end

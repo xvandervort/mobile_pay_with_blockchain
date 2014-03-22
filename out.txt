@@ -1,9 +1,0 @@
-Run options: -n test_should_create_payment --seed 37826
-
-# Running tests:
-
-.
-
-Finished tests in 0.048983s, 20.4154 tests/s, 61.2463 assertions/s.
-
-1 tests, 3 assertions, 0 failures, 0 errors, 0 skips

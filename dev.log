@@ -1,8 +1,13 @@
+3/22
+  Fixed bug concerning failure to store amount.
+  I was wrong about images not being stored. They were under ./public/system/payments/invoices/
+  
+
 3/21
   Created project.
   set up user system and transaction save form.
     Payment amount is failing to save.
-    I don't think the images ar ebeing saved either.
+    I don't think the images are being saved either.
     NEXT: Fix those 2 bugs!
   
 Dev plan
