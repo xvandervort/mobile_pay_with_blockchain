@@ -11,7 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140321201151) do
+ActiveRecord::Schema.define(version: 20140322012746) do
+
+  create_table "payments", force: true do |t|
+    t.integer  "user_id"
+    t.string   "merchant"
+    t.string   "currency"
+    t.boolean  "pre_approval",                                  default: false
+    t.string   "transaction_hash"
+    t.string   "image_hash"
+    t.decimal  "amount",               precision: 12, scale: 4
+    t.string   "comment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "invoice_file_name"
+    t.string   "invoice_content_type"
+    t.integer  "invoice_file_size"
+    t.datetime "invoice_updated_at"
+  end
 
   create_table "roles", force: true do |t|
     t.string   "name"

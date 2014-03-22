@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  merchant: Air France
+  currency: EUR
+  pre_approval: false
+  transaction_hash: somehashofsomekind
+  image_hash: yeahIneedtoHaveThoseTooo
+  amount: 7593.45
+  comment: Only fools fly coach
+
+two:
+  user_id: 1
+  merchant: Tesla Motors
+  currency: USD
+  pre_approval: false
+  transaction_hash: adifferenthash
+  image_hash: yetanotherhash
+  amount: 99999.01
+  comment: my other car is a boeing 787
+  
+three:
+  user_id: 2
+  merchant: Applebees
+  currency: USD
+  pre_approval: true
+  transaction_hash: adifferenthash2
+  image_hash: yetanotherhash2
+  amount: 35.00
+  comment: lunch

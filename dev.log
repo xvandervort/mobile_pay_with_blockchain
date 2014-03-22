@@ -1,7 +1,19 @@
 3/21
-  Created project. General order of development:
-    Create user system
+  Created project.
+  set up user system and transaction save form.
+    Payment amount is failing to save.
+    I don't think the images ar ebeing saved either.
+    NEXT: Fix those 2 bugs!
+  
+Dev plan
+  General order of development:
+    Create user system  DONE
     create form for inserting images and meta information
     check form data against business rules
     return response
     Insert into blockchain.
+
+  Home page should show recent transactions for this user and their statuses and a submit link.
+  Hmmm. That argues for defaulting to transaction index instead of "home"
+  NOTE: payments cannot be edited or deleted once they have been added to the blockchain.
+  If user is an admin (should create admins), shows them all

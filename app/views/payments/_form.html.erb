@@ -1,0 +1,45 @@
+<%= form_for @payment, html: { :multipart => true } do |f| %>
+  <% if @payment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@payment.errors.count, "error") %> prohibited this payment from being saved:</h2>
+
+      <ul>
+      <% @payment.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :user_id, value: current_user.id %>
+  
+  <div class="field">
+    <%= f.label :merchant %><br>
+    <%= f.text_field :merchant, size: 40 %>
+  </div>
+  <div class="field">
+    <%= f.label :currency %><br>
+    <%= f.select :currency, Payment::CURRENCIES %>
+  </div>
+  <div class="field">
+    <%= f.label :pre_approval %><br>
+    <%= f.check_box :pre_approval %>
+  </div>
+  <div class="field">
+    <%= f.label :amount %><br>
+    <%= f.text_field :amount %>
+  </div>
+  <div class="field">
+    <%= f.label :comment %><br>
+    <%= f.text_field :comment, size: 40, limit: 40 %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :invoice %>
+    <%= f.file_field :invoice %>
+  </div>
+  
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

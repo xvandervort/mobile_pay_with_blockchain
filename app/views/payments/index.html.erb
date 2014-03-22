@@ -1,0 +1,39 @@
+<h1>Listing payments</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Merchant</th>
+      <th>Currency</th>
+      <th>Pre approval</th>
+      <th>Transaction hash</th>
+      <th>Image hash</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @payments.each do |payment| %>
+      <tr>
+        <td><%= payment.user.email %></td>
+        <td><%= payment.merchant %></td>
+        <td><%= payment.currency %></td>
+        <td><%= payment.pre_approval %></td>
+        <td><%= payment.transaction_hash %></td>
+        <td><%= payment.image_hash %></td>
+        <td><%= link_to 'Show', payment %></td>
+        <!-- hide invalid actions.
+          <td><%= link_to 'Edit', edit_payment_path(payment) %></td>
+          <td><%= link_to 'Destroy', payment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        -->
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Payment', new_payment_path %>
