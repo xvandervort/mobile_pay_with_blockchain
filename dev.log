@@ -1,8 +1,7 @@
 3/22
   Fixed bug concerning failure to store amount.
-  I was wrong about images not being stored. They were under ./public/system/payments/invoices/
+  I was wrong about images not being stored. They were under ./public/system/payments/invoices/ So I was able to set up image hashes.
   
-
 3/21
   Created project.
   set up user system and transaction save form.
@@ -13,7 +12,7 @@
 Dev plan
   General order of development:
     Create user system  DONE
-    create form for inserting images and meta information
+    create form for inserting images and meta information DONE
     check form data against business rules
     return response
     Insert into blockchain.

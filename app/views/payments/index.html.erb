@@ -7,8 +7,7 @@
       <th>Merchant</th>
       <th>Currency</th>
       <th>Pre approval</th>
-      <th>Transaction hash</th>
-      <th>Image hash</th>
+      <th>Accepted?</th>
       <th></th>
       <th></th>
       <th></th>
@@ -22,8 +21,7 @@
         <td><%= payment.merchant %></td>
         <td><%= payment.currency %></td>
         <td><%= payment.pre_approval %></td>
-        <td><%= payment.transaction_hash %></td>
-        <td><%= payment.image_hash %></td>
+        <td><%= if payment.approval_status == true then 'Yes' else 'REJECTED!!!' end %></td>
         <td><%= link_to 'Show', payment %></td>
         <!-- hide invalid actions.
           <td><%= link_to 'Edit', edit_payment_path(payment) %></td>

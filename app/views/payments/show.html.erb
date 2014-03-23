@@ -35,5 +35,7 @@
   <%= image_tag @payment.invoice.url %>
 </p>
 
+<h3>This payment has been <% if @payment.approval_status == true %>'Accepted'<% else %><span style="color: red;">REJECTED</span><% end %></h3>
+
 <%= link_to 'Edit', edit_payment_path(@payment) %> |
 <%= link_to 'Back', payments_path %>

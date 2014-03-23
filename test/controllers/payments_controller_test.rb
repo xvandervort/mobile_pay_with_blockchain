@@ -21,7 +21,13 @@ class PaymentsControllerTest < ActionController::TestCase
 
   test "should create payment" do
     assert_difference('Payment.count') do
-      post :create, payment: { currency: @payment.currency, image_hash: @payment.image_hash, merchant: @payment.merchant, pre_approval: @payment.pre_approval, transaction_hash: @payment.transaction_hash, user_id: @payment.user_id }
+      post :create, payment: { currency: @payment.currency,
+                               image_hash: @payment.image_hash,
+                               merchant: @payment.merchant,
+                               pre_approval: @payment.pre_approval,
+                               transaction_hash: @payment.transaction_hash,
+                               amount: 1,
+                               user_id: @payment.user_id }
     end
 
     assert_redirected_to payment_path(assigns(:payment))
@@ -63,4 +69,27 @@ class PaymentsControllerTest < ActionController::TestCase
     pay = Payment.last
     assert_equal 5.0, pay.amount
   end
+  
+  test "should get fail whale page" do
+    shmo = users(:three)
+    sign_in :user, shmo
+    bad_payment = Payment.create(currency: 'USD', user_id: shmo.id, amount: 750000000)
+    bad_payment.apply_rules
+    get :reject, id: bad_payment.id
+    assert_response :success
+  end
+  
+=begin
+  wtf? RuntimeError: @controller is nil: make sure you set it in your test's setup method.
+  test "should reject over limit payments" do
+    sign_out @user
+    this_user = users(:three)
+    sign_in :user, this_user
+    post :create, payment: { currency: "USD", merchant: "who cares?", pre_approval: true, user_id: this_user.id, amount: '5000000000' }
+    
+    pay = Payment.last
+    assert !pay.approval_status
+    assert_redirected_to reject_payment_path pay.id
+  end
+=end
 end

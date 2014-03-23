@@ -8,9 +8,12 @@ class Payment < ActiveRecord::Base
   after_create :hash_transaction, :hash_image
   
   CURRENCIES = ['USD', 'EUR', 'BTC', 'INR', 'AUD', 'CAD', 'JPY']
-  
-  def testrun
-    hash_image
+
+  # TODO: Convert currencies so limits make sense!
+  # TODO: WHY is this not an after create or even before save item?
+  def apply_rules
+    self.approval_status = (amount.to_f < user.limit.to_f)
+    save
   end
   
   private
@@ -27,6 +30,7 @@ class Payment < ActiveRecord::Base
   end
   
   def hash_image
+    return if invoice.nil? || invoice.path.nil? ## this is just for testing. 
     f = File.open(invoice.path, "rb")
     dig = Digest::SHA256.new
     f.each_byte do |by|  # doing it one byte at a time is horribly slow on large files.

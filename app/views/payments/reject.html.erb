@@ -1,0 +1,11 @@
+<h2>Warning! This payment is over your limit and will be rejected!</h2>
+
+<p>Details</p>
+<p>
+  <strong>Merchant:</strong>  <%= @payment.merchant %><br/>
+  <!-- display needs to take into account non-US currency -->
+  <strong>Amount:</strong>  <%= number_to_currency @payment.amount  %><br/>
+  <strong>Your limit:</strong>  <%= number_to_currency @payment.user.limit %><br/>
+</p>
+
+<p><%= link_to 'home', root_path %></p>

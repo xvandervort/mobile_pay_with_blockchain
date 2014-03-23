@@ -1,6 +1,6 @@
 class PaymentsController < ApplicationController
   before_filter :authenticate_user!
-  before_action :set_payment, only: [:show, :edit, :update, :destroy]
+  before_action :set_payment, only: [:show, :edit, :update, :destroy, :reject]
 
   # GET /payments
   # GET /payments.json
@@ -26,11 +26,17 @@ class PaymentsController < ApplicationController
   # POST /payments.json
   def create
     @payment = Payment.new(payment_params)
-
+    
     respond_to do |format|
       if @payment.save
-        format.html { redirect_to @payment, notice: 'Payment was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @payment }
+        @payment.apply_rules
+        if @payment.approval_status == true            
+          format.html { redirect_to @payment, notice: 'Payment was successfully created.' }
+          format.json { render action: 'show', status: :created, location: @payment }
+          
+        else
+          format.html { redirect_to reject_payment_path @payment }    
+        end
       else
         format.html { render action: 'new' }
         format.json { render json: @payment.errors, status: :unprocessable_entity }
@@ -60,6 +66,10 @@ class PaymentsController < ApplicationController
       format.html { redirect_to payments_url }
       format.json { head :no_content }
     end
+  end
+  
+  def reject
+    
   end
 
   private

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140322012746) do
+ActiveRecord::Schema.define(version: 20140323001241) do
 
   create_table "payments", force: true do |t|
     t.integer  "user_id"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20140322012746) do
     t.string   "invoice_content_type"
     t.integer  "invoice_file_size"
     t.datetime "invoice_updated_at"
+    t.boolean  "approval_status",                               default: false
   end
 
   create_table "roles", force: true do |t|
