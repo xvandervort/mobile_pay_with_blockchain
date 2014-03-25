@@ -11,7 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140323001241) do
+ActiveRecord::Schema.define(version: 20140324211022) do
+
+  create_table "block_workers", force: true do |t|
+    t.string   "block_hash"
+    t.text     "data"
+    t.integer  "payment_count"
+    t.text     "payment_list"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "blocks", force: true do |t|
+    t.string   "block_hash"
+    t.string   "prev_block_hash"
+    t.integer  "miner_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "payments", force: true do |t|
     t.integer  "user_id"
@@ -29,6 +46,7 @@ ActiveRecord::Schema.define(version: 20140323001241) do
     t.integer  "invoice_file_size"
     t.datetime "invoice_updated_at"
     t.boolean  "approval_status",                               default: false
+    t.integer  "block_id"
   end
 
   create_table "roles", force: true do |t|

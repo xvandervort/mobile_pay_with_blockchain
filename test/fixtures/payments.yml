@@ -9,6 +9,7 @@ one:
   image_hash: yeahIneedtoHaveThoseTooo
   amount: 7593.45
   comment: Only fools fly coach
+  block_id: 1
 
 two:
   user_id: 1
@@ -19,6 +20,7 @@ two:
   image_hash: yetanotherhash
   amount: 99999.01
   comment: my other car is a boeing 787
+  block_id: 1
   
 three:
   user_id: 2

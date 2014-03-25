@@ -2,6 +2,7 @@ require 'digest'
 
 class Payment < ActiveRecord::Base
   belongs_to :user
+  belongs_to :block
   has_attached_file :invoice, :default_url => "/images/invoices/missing.png"
   #validates :invoice, :attachment_presence => true Commented out because I can't figure out how to run tests with it in place!
   validates_attachment :invoice, content_type: { :content_type => ["image/jpg", "image/tif", "image/png", 'application/pdf'] }

@@ -1,6 +1,36 @@
+3/25 Morning
+  Merkle trees implemented. Next step, fill the base of the tree with transactions in block_worker.
+  Then do proof of work off the hash, I think.
+
+3/24
+  created db tables for blocks and block worker (not yet confirmed or stored blocks) and db-less models merkle_tree and merkle_leaf.
+  NEXT: finish merkle_leaf and merkle_tree.
+  THEN: PoW
+
+DISCUSSION
+  Adding things to the block chain must be done by a reaper that runs on a schedule and can be run in a distributed way, so it can be confirmed by other nodes. So the block model requires a field for number of confirmations and it is not accepted until it is buried by future blocks.
+  Interesting point: If transaction volume is low, what do we do? Mining creates a "make work" transaction that also serves a purpose.
+  So there is some need for other kinds of transactions. But there's no coin to mine in this context. It doesn't track. What good would the coins be? I gave up the idea of using coins to simulate transaction limits because of the need to replensih daily or more. It doesn't scale well in large or growing organizations, either. Also, mining from mobile devices is disallowed. We want this under tight control.
+  A transaction verifying the last block is semi-reasonable.
+  Let's start with the basics. Create a block.
+    on wake, look for transactions in pool.
+    Collect up to n of them
+    do the verification.
+      When submitting the verification, must first check to see if another one has come in from somewhere. If so, check to see if it's good. If you accept it, fine. If not,
+      btw: No transaction is signed in the current implementation. That is not acceptable!
+      
+      verfiy the proof of work on a block
+      Because no block is permanent until verified by some number of 'workers.' And you can't move on the next block without that either.
+      Is it possible to have several unverified blocks in the db? NO, because that would mean having several links to transactions.
+      So how do we handle an unverified block? How do we have other workers validate it? Do I need to solve that problem now?
+      One of the advantages of the blockchain is that every node keeps a full copy. Thus what should happen is that when the blockWorker finds a valid block, it broadasts it to other workers for validation before insertion into the local copy. So the worker that finds the block accepts it but may remove it when other workers refuse it. Assume a minimum of three nodes.
+      I am making the current system to work only with one node but multiple nodes are necessary and implied. I'll add that layer later. It could be as simple as having a "pending block" table that can be written to by other systems from time to time. I dunno.
+
 3/22
   Fixed bug concerning failure to store amount.
   I was wrong about images not being stored. They were under ./public/system/payments/invoices/ So I was able to set up image hashes.
+  Added simplest possible payment validation.
+  NEXT: build and explore the blockchain
   
 3/21
   Created project.
@@ -13,8 +43,8 @@ Dev plan
   General order of development:
     Create user system  DONE
     create form for inserting images and meta information DONE
-    check form data against business rules
-    return response
+    check form data against business rules DONE
+    return response DONE
     Insert into blockchain.
 
   Home page should show recent transactions for this user and their statuses and a submit link.
