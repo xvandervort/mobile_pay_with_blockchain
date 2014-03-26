@@ -39,4 +39,17 @@ class BlockWorker < ActiveRecord::Base
     tree = MerkleTree.new hashes
     tree.tree_hash 
   end
+  
+  def proof_of_work
+    # is there a pool?
+    @pool ||= BlockWorker.get_pool
+    
+    # is there a tree hash?
+    self.tree_hash = get_merkle_hash
+    
+    # pow!
+    pow = Pow.new self.tree_hash
+    self.nonce = pow.run_proof
+    save
+  end
 end

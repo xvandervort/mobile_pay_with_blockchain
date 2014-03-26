@@ -1,3 +1,7 @@
+3/25 Evening
+  Proof of work (of sorts) implementeed.
+  NEXT: a rake task that can run from cron to create blocks.
+
 3/25 Morning
   Merkle trees implemented. Next step, fill the base of the tree with transactions in block_worker.
   Then do proof of work off the hash, I think.
