@@ -2,12 +2,12 @@
 
 one:
   block_hash: MyString
-  data: MyText
   payment_count: 1
   payment_list: MyText
+  previous_block_hash: MyString
 
 two:
-  block_hash: MyString
-  data: MyText
+  block_hash: MyString2
+  previous_block_hash: MyString2
   payment_count: 1
   payment_list: MyText

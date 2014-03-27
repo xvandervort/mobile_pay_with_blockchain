@@ -1,6 +1,7 @@
 require 'json'
 class BlockWorker < ActiveRecord::Base
   BlockSize = 50 # pretend limit of the number of transactions that can go in one block.
+  has_one :block
   
   # ignoring create because this is not a standard type model.
   # It, in fact, generates itself.
@@ -15,7 +16,7 @@ class BlockWorker < ActiveRecord::Base
     @block = BlockWorker.init @pool
     
     #step 3: construct and hash the merkle tree.
-    self.block_hash = get_merkle_hash
+    self.merkle_root = get_merkle_hash
     save
     
     # AND NOW FOR MY NEXT TRICK .....
@@ -38,6 +39,17 @@ class BlockWorker < ActiveRecord::Base
     hashes = pool.collect{|payment| payment.transaction_hash}
     tree = MerkleTree.new hashes
     tree.tree_hash 
+  end
+  
+  # creates or displays a json object showing the fields of the thing.
+  def header
+    @block_header ||= {
+      block_hash: self.block_hash,
+      merkle_root: self.merkle_root,
+      timestamp: self.timestamp.to_i,
+      nonce: self.nonce,
+      previous_block_hash: self.previous_block_hash
+    }.to_json
   end
   
   def proof_of_work

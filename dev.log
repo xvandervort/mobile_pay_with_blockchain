@@ -1,3 +1,9 @@
+3/26
+  Had to rearrange fields between block and block_worker and set block to delegate most fields to block_worker, in order to avoid duplication. This means that when a block from a remote source is accepted, the associated worker must also be created.
+  Also noticed some deficienceies in the current setup:
+    1. Hashing merkle root as the block hash is wrong. Must include header (not sure how)
+    2. timestamp and previous block hash are MISSING! they need to be created. NEXT
+
 3/25 Evening
   Proof of work (of sorts) implementeed.
   NEXT: a rake task that can run from cron to create blocks.

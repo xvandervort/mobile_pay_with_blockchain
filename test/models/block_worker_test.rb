@@ -4,6 +4,10 @@ require 'digest'
 
 class BlockWorkerTest < ActiveSupport::TestCase
   
+  def setup
+    @pool = [payments(:three)]
+  end
+  
   test "should assign pool" do
     pool = BlockWorker.get_pool
     assert_not_nil pool
@@ -11,21 +15,45 @@ class BlockWorkerTest < ActiveSupport::TestCase
   end
   
   test "should create new block with pool" do
-    pool = [payments(:three)]
-    bw = BlockWorker.init pool
+    bw = BlockWorker.init @pool
     assert_kind_of BlockWorker, bw
     list = JSON.parse bw.payment_list
-    assert_equal pool.first.id, list['payments'].first['id']
-    assert_equal pool.size, list['payments'].size
+    assert_equal @pool.first.id, list['payments'].first['id']
+    assert_equal @pool.size, list['payments'].size
   end
   
   test "should get merkle hash of block" do
-    pool = [payments(:three)]
-    bw = BlockWorker.init pool
-    mh = bw.get_merkle_hash pool
-    true_hash = get_true_hash pool
+    bw = BlockWorker.init @pool
+    mh = bw.get_merkle_hash @pool
+    true_hash = get_true_hash @pool
 
     assert_equal true_hash, mh
+  end
+  
+  test "should generate header" do
+    # I may have to do some definition of payment records in the header
+    real_head = {
+      block_hash: 'some block hash',
+      merkle_root: 'some merkle root (another hash)',
+      timestamp: DateTime.now,
+      nonce: 12345678,
+      previous_block_hash: 'the hash of the block that came before the current block'
+    }
+    bw = BlockWorker.create(
+      block_hash: real_head[:block_hash],
+      merkle_root: real_head[:merkle_root],
+      timestamp: real_head[:timestamp],
+      nonce: real_head[:nonce],
+      previous_block_hash: real_head[:previous_block_hash],
+      payment_count: @pool.size,
+      payment_list: @pool.collect{|pl| pl.id}.join(",")
+    )
+    
+    # adjust format
+    real_head[:timestamp] = real_head[:timestamp].to_i
+    
+    block_header = bw.header
+    assert_equal real_head.to_json, block_header
   end
   
   private

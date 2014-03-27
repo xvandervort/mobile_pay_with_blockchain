@@ -11,24 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140326013510) do
+ActiveRecord::Schema.define(version: 20140327014232) do
 
   create_table "block_workers", force: true do |t|
     t.string   "block_hash"
-    t.text     "data"
     t.integer  "payment_count"
     t.text     "payment_list"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "nonce"
+    t.string   "merkle_root"
+    t.datetime "timestamp"
+    t.string   "previous_block_hash"
   end
 
   create_table "blocks", force: true do |t|
-    t.string   "block_hash"
-    t.string   "prev_block_hash"
     t.integer  "miner_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "block_worker_id"
+    t.text     "data"
   end
 
   create_table "payments", force: true do |t|
