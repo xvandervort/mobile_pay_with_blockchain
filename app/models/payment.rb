@@ -17,12 +17,22 @@ class Payment < ActiveRecord::Base
     save
   end
   
+  def to_h
+    {
+      merchant: self.merchant,
+      amount: self.amount,
+      currency: self.currency,
+      image_hash: self.image_hash,
+      user_id: self.user_id
+    }
+  end
+  
   private
   
   # creates hash of transaction that will be fed into block
   def hash_transaction
     dig = Digest::SHA256.new
-    [user_id, merchant, currency, amount, created_at ].each do |thing|
+    [user_id, merchant, currency, amount, created_at, image_hash ].each do |thing|
       dig << thing.to_s
     end
     

@@ -1,9 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  id: 1
   data: MyText
   miner_id: 1
+  block_worker_id: 1
 
 two:
+  id: 2
   data: MyText2
   miner_id: 1
+  block_worker_id: 2

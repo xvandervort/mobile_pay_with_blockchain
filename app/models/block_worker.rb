@@ -16,11 +16,16 @@ class BlockWorker < ActiveRecord::Base
     @block = BlockWorker.init @pool
     
     #step 3: construct and hash the merkle tree.
-    self.merkle_root = get_merkle_hash
-    save
+    @block.merkle_root = @block.get_merkle_hash
+
+    # step 4: Calculate the block hadh
+    @block.block_hash = @block.get_block_hash
+    @block.save
     
     # AND NOW FOR MY NEXT TRICK .....
-    # It's time to do the proof of work. That neds to be an extra step!, not built in.
+    # It's time to do the proof of work. That needs to be an extra step!, not built in.
+    
+    @block
   end
   
   # retrieve a list of payments not already in a block.
@@ -31,11 +36,14 @@ class BlockWorker < ActiveRecord::Base
   
   def self.init(pool)
     h = { payments: pool }.to_json
-    BlockWorker.create payment_count: pool.size, payment_list: h
+    
+    # slightly naive search for last block!
+    prev = Block.last.block_hash
+    BlockWorker.create payment_count: pool.size, payment_list: h, previous_block_hash: prev, timestamp: DateTime.now
   end
   
   def get_merkle_hash(pool = nil)
-    pool ||= @pool
+    pool ||= @pool.nil? ? BlockWorker.get_pool : @pool
     hashes = pool.collect{|payment| payment.transaction_hash}
     tree = MerkleTree.new hashes
     tree.tree_hash 
@@ -43,12 +51,15 @@ class BlockWorker < ActiveRecord::Base
   
   # creates or displays a json object showing the fields of the thing.
   def header
+    invoices = get_invoices
+
     @block_header ||= {
       block_hash: self.block_hash,
       merkle_root: self.merkle_root,
       timestamp: self.timestamp.to_i,
       nonce: self.nonce,
-      previous_block_hash: self.previous_block_hash
+      previous_block_hash: self.previous_block_hash,
+      transactions: invoices.collect{|i| i.transaction_hash}
     }.to_json
   end
   
@@ -63,5 +74,26 @@ class BlockWorker < ActiveRecord::Base
     pow = Pow.new self.tree_hash
     self.nonce = pow.run_proof
     save
+  end
+  
+  def get_block_hash
+    dig = Digest::SHA1.new
+    dig << previous_block_hash
+    dig << timestamp.to_i.to_s
+    dig << merkle_root
+
+    dig.to_s
+  end
+  
+  # converts transaction list to an actual array of invoices
+  # Yes, this is a silly way of storing the data but I didn't want a many to many relationship.
+  def get_invoices
+    out = []
+    ids = JSON.parse(self.payment_list)
+    ids.each do |i|
+      out << Payment.find(i.to_i)
+    end
+    
+    out
   end
 end

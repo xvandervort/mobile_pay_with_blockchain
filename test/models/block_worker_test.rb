@@ -37,7 +37,8 @@ class BlockWorkerTest < ActiveSupport::TestCase
       merkle_root: 'some merkle root (another hash)',
       timestamp: DateTime.now,
       nonce: 12345678,
-      previous_block_hash: 'the hash of the block that came before the current block'
+      previous_block_hash: 'the hash of the block that came before the current block',
+      transactions: [payments(:three).transaction_hash]
     }
     bw = BlockWorker.create(
       block_hash: real_head[:block_hash],
@@ -46,7 +47,7 @@ class BlockWorkerTest < ActiveSupport::TestCase
       nonce: real_head[:nonce],
       previous_block_hash: real_head[:previous_block_hash],
       payment_count: @pool.size,
-      payment_list: @pool.collect{|pl| pl.id}.join(",")
+      payment_list: @pool.collect{|pl| pl.id}.to_json
     )
     
     # adjust format
@@ -54,6 +55,19 @@ class BlockWorkerTest < ActiveSupport::TestCase
     
     block_header = bw.header
     assert_equal real_head.to_json, block_header
+  end
+  
+  test "init should pull previous block hash" do
+    # does that get included in the merkle tree?
+    # looks like no.
+    bw = BlockWorker.init @pool
+    assert_equal blocks(:two).block_hash, bw.previous_block_hash
+  end
+  
+  test "make should generate block hash" do
+    bw = BlockWorker.make
+    assert_not_nil bw.block_hash
+    assert_equal 40, bw.block_hash.size # 64 if you go to sha256
   end
   
   private

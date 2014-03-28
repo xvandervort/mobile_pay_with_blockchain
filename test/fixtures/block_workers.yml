@@ -1,12 +1,14 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  id: 1
   block_hash: MyString
   payment_count: 1
   payment_list: MyText
   previous_block_hash: MyString
 
 two:
+  id: 2
   block_hash: MyString2
   previous_block_hash: MyString2
   payment_count: 1

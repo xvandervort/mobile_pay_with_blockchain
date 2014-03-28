@@ -15,4 +15,18 @@ class PaymentTest < ActiveSupport::TestCase
     trans.apply_rules
     assert !trans.reload.approval_status
   end
+  
+  test "should convert transaction to hash" do
+    user = users(:one)
+    merch = 'some merchant'
+    curr = 'USD'
+    amt = 35.0
+    image_hash = 'oinhceiubceiuubiwxihb'
+    trans = Payment.create merchant: merch, currency: curr, amount: amt, user_id: user.id, image_hash: image_hash
+    target = {
+      merchant: merch, currency: curr, amount: amt, user_id: user.id, image_hash: image_hash
+    }
+    
+    assert_equal target, trans.to_h
+  end
 end

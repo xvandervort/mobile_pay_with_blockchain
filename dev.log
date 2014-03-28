@@ -1,8 +1,18 @@
+3/27
+  Repaired (more or less) block hash by adding in timestamp and previous block hash. 
+
+3/27 Discussion
+  6 confirmations (blocks) on top of a transaction
+  Currently doing no error checking. If the same invoice image is sent more than once, you should fail.
+  Transactions need a type. The "coinbase" type contains no image. It's intended to (in the future) support mining. The standard types are invoices (where permission may be requested) or reciepts (after the fact). Receipts do not need permission feedback, though business rules may still be applied to determine whether they are accepted or rejected. An audit type is also possible. This would basically just verify some previous transaction. I don't know what the value of that is.
+  Business rules can also be applied to what transactions are included in a block.
+
 3/26
   Had to rearrange fields between block and block_worker and set block to delegate most fields to block_worker, in order to avoid duplication. This means that when a block from a remote source is accepted, the associated worker must also be created.
   Also noticed some deficienceies in the current setup:
     1. Hashing merkle root as the block hash is wrong. Must include header (not sure how)
     2. timestamp and previous block hash are MISSING! they need to be created. NEXT
+    3. How best to represent transactions in the header? What part of them gets hashed?
 
 3/25 Evening
   Proof of work (of sorts) implementeed.
