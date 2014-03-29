@@ -38,7 +38,11 @@ class BlockWorker < ActiveRecord::Base
     h = pool.collect{|pay| pay.id }.to_json
     
     # slightly naive search for last block!
-    prev = Block.last.block_hash
+    prev = if Block.count > 0
+      Block.last.block_hash
+    else
+      ""
+    end
     BlockWorker.create payment_count: pool.size, payment_list: h, previous_block_hash: prev, timestamp: DateTime.now
   end
   
@@ -68,10 +72,10 @@ class BlockWorker < ActiveRecord::Base
     @pool ||= BlockWorker.get_pool
     
     # is there a tree hash?
-    self.tree_hash = get_merkle_hash
+    self.merkle_root = get_merkle_hash
     
     # pow!
-    pow = Pow.new self.tree_hash
+    pow = Pow.new self.merkle_root
     self.nonce = pow.run_proof
     save
   end

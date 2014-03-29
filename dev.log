@@ -1,5 +1,7 @@
 3/28
-  Time to start work on the miner.
+  Time to start work on the miner. (DONE)
+  But first, fix the bizarreness with the payments list test. (DONE)
+  What does a miner do? It builds blocks. Period. transmitting and receiving is an issue for the distributed system, which I'm not doing for here.
 
 3/27
   Repaired (more or less) block hash by adding in timestamp and previous block hash. 
