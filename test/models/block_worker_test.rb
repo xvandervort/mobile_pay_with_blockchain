@@ -18,8 +18,8 @@ class BlockWorkerTest < ActiveSupport::TestCase
     bw = BlockWorker.init @pool
     assert_kind_of BlockWorker, bw
     list = JSON.parse bw.payment_list
-    assert_equal @pool.first.id, list['payments'].first['id']
-    assert_equal @pool.size, list['payments'].size
+    assert_equal @pool.first.id, list.first
+    assert_equal @pool.size, list.size
   end
   
   test "should get merkle hash of block" do

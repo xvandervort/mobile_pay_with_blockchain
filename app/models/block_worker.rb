@@ -35,7 +35,7 @@ class BlockWorker < ActiveRecord::Base
   end
   
   def self.init(pool)
-    h = { payments: pool }.to_json
+    h = pool.collect{|pay| pay.id }.to_json
     
     # slightly naive search for last block!
     prev = Block.last.block_hash

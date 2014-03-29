@@ -1,3 +1,6 @@
+3/28
+  Time to start work on the miner.
+
 3/27
   Repaired (more or less) block hash by adding in timestamp and previous block hash. 
 
