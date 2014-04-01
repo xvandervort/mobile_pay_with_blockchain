@@ -1,0 +1,23 @@
+<h1>Recent blocks</h1>
+
+<table>
+  <tr>
+    <th>id</th>
+    <th>Transactions</th>
+    <th>block hash</th>
+    <th>nonce</th>
+    <th>Timestamp</th>
+    <th>Previous block hash</th>
+  </tr>
+  
+  <% @blocks.each do |block| %>
+    <tr>
+      <td><%= block.id %></td>
+      <td><%= block.payment_count %></td>
+      <td><%= block.block_hash %></td>
+      <td><%= block.nonce %></td>
+      <td><%= block.timestamp.to_i %></td>
+      <td><%= block.previous_block_hash %></td>
+    </tr>
+  <% end %>
+</table>

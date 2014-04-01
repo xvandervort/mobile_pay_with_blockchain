@@ -7,6 +7,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <h2 align="center">Enterprise Payment Tracker</h2>
   <% unless notice.nil? %>
     <p class="notice"><%= notice %></p>
   <% end %>
@@ -15,7 +16,10 @@
     <p class="alert"><%= alert %></p>
   <% end %>
   <% if user_signed_in? %>
-    <div id='welcomeuser'>Welcome <%= current_user.email %> &nbsp; <%=  link_to 'sign out', destroy_user_session_path, :method => :delete %></div>
+    <div id='welcomeuser'>Welcome <%= current_user.email %> &nbsp; <%=  link_to 'sign out', destroy_user_session_path, :method => :delete %><br/>
+      <%= link_to_unless_current 'block explorer', blockchain_index_path %> &nbsp; |
+      <%= link_to_unless_current 'home', root_path %>
+    </div>
   <% end %>
   <%= yield %>
 
