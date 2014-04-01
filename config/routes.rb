@@ -1,5 +1,7 @@
 MobilePayWithBlockchain::Application.routes.draw do
-  get "blockchain/index"
+  get "blocks/index"
+  get "blocks/:id/show" => 'blocks#show', as: :blocks_show
+
   resources :payments do
     member do
       get 'reject'

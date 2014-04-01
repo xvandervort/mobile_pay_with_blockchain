@@ -1,0 +1,69 @@
+<h2>Block detail</h2>
+
+<p>
+  <span class="blfield">Id</span>
+  <span class="blvalue"><%= @block.id %></span>
+<br/>
+  <span class="blfield">Timestamp</span>
+  <span class="blvalue"><%= @block.timestamp.to_i %></span>
+  
+<br/>
+  <span class="blfield">Transaction count</span>
+  <span class="blvalue"><%= @block.payment_count %></span>
+  
+<br/>
+  <span class="blfield">Timestamp</span>
+  <span class="blvalue"><%= @block.timestamp.to_i %></span>
+  
+<br/>
+  <span class="blfield">nonce</span>
+  <span class="blvalue"><%= @block.nonce %></span>
+  
+<br/>
+  <span class="blfield">Merkle root</span>
+  <span class="blvalue"><%= @block.merkle_root %></span>
+  
+<br/>
+  <span class="blfield">Block hash</span>
+  <span class="blvalue"><%= @block.block_hash %></span>
+  
+<br/>
+  <span class="blfield">Previous block hash</span>
+  <span class="blvalue"><%= @block.previous_block_hash %></span>
+  
+<br/>
+  <span class="blfield">Timestamp</span>
+  <span class="blvalue"><%= @block.timestamp.to_i %></span>
+</p>
+
+<h3>Transactions</h3>
+<table>
+<thead>
+    <tr>
+      <th>Merchant</th>
+      <th>Currency</th>
+      <th>Pre approval</th>
+      <th>Accepted?</th>
+      <th>Transaction hash</th>
+      <th>Image hash</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @block.payments.each do |payment| %>
+      <tr>
+        <td><%= payment.merchant %></td>
+        <td><%= payment.currency %></td>
+        <td><%= payment.pre_approval %></td>
+        <td><%= if payment.approval_status == true then 'Yes' else 'REJECTED!!!' end %></td>
+        <td><%= payment.transaction_hash %></td>
+        <td><%= payment.image_hash %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</table>
+
+
+
+

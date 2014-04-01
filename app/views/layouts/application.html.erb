@@ -17,7 +17,7 @@
   <% end %>
   <% if user_signed_in? %>
     <div id='welcomeuser'>Welcome <%= current_user.email %> &nbsp; <%=  link_to 'sign out', destroy_user_session_path, :method => :delete %><br/>
-      <%= link_to_unless_current 'block explorer', blockchain_index_path %> &nbsp; |
+      <%= link_to_unless_current 'blocks', blocks_index_path %> &nbsp; |
       <%= link_to_unless_current 'home', root_path %>
     </div>
   <% end %>

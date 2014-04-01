@@ -18,6 +18,7 @@
       <td><%= block.nonce %></td>
       <td><%= block.timestamp.to_i %></td>
       <td><%= block.previous_block_hash %></td>
+      <td><%= link_to 'detail', blocks_show_path(block.id) %></td>
     </tr>
   <% end %>
 </table>
