@@ -1,3 +1,7 @@
+4/1
+  Blocks controller now allows drill down into blocks and assopciated transactions.
+  Note: I think I stored the wrong thing in the block hash. either that or I need to store the total proof of work, not just the nonce. Whatever. The prototype is now done and I can write the ID.
+
 3/28
   Time to start work on the miner. (DONE)
   But first, fix the bizarreness with the payments list test. (DONE)
